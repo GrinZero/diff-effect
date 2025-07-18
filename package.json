@@ -4,10 +4,16 @@
   "description": "",
   "type": "module",
   "main": "index.js",
+  "files": [
+    "./dist",
+    "./pkg"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:rust": "wasm-pack build --target nodejs",
-    "dev": "pnpm build:rust && node demo/main.js"
+    "dev": "pnpm build:rust && node demo/main.js",
+    "build": "sh ./scripts/build.sh",
+    "build:watch": "rslib build --watch"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +23,7 @@
     "diff-effect-rust": "workspace:*"
   },
   "devDependencies": {
+    "@rslib/core": "^0.10.6",
     "@types/node": "^24.0.14",
     "tsx": "^4.20.3"
   }
