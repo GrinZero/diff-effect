@@ -1,6 +1,6 @@
 {
   "name": "diff-effect",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "",
   "type": "module",
   "main": "index.js",
@@ -19,14 +19,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "diff": "^8.0.2"
+    "diff": "^8.0.2",
+    "diff-effect-rust": "workspace:*"
   },
   "devDependencies": {
     "@rslib/core": "^0.10.6",
     "@types/node": "^24.0.14",
-    "tsx": "^4.20.3"
-  },
-  "optionalDependencies": {
-    "diff-effect-rust": "workspace:*"
+    "rsbuild-plugin-dts": "^0.10.6",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

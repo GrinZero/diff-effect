@@ -1,4 +1,5 @@
 import { defineConfig } from "@rslib/core";
+import { pluginDts } from "rsbuild-plugin-dts";
 
 export default defineConfig({
   lib: [
@@ -8,4 +9,5 @@ export default defineConfig({
   output: {
     target: "node",
   },
+  plugins: [pluginDts()],
 });

@@ -11,20 +11,25 @@ importers:
       diff:
         specifier: ^8.0.2
         version: 8.0.2
-    optionalDependencies:
       diff-effect-rust:
         specifier: workspace:*
         version: link:pkg
     devDependencies:
       '@rslib/core':
         specifier: ^0.10.6
-        version: 0.10.6
+        version: 0.10.6(typescript@5.8.3)
       '@types/node':
         specifier: ^24.0.14
         version: 24.0.14
+      rsbuild-plugin-dts:
+        specifier: ^0.10.6
+        version: 0.10.6(@rsbuild/core@1.4.7)(typescript@5.8.3)
       tsx:
         specifier: ^4.20.3
         version: 4.20.3
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
 
   pkg: {}
 
@@ -448,7 +453,7 @@ packages:
       jiti: 2.4.2
     dev: true
 
-  /@rslib/core@0.10.6:
+  /@rslib/core@0.10.6(typescript@5.8.3):
     resolution: {integrity: sha512-7OLdmmQbY116gNAAsY9baCid9REr+z11qfAzwVVFw+Q8avCE6YqpcBLfrBXlfmpBikfshDmHH8EpRrQwz8gZJQ==}
     engines: {node: '>=16.7.0'}
     hasBin: true
@@ -462,8 +467,9 @@ packages:
         optional: true
     dependencies:
       '@rsbuild/core': 1.4.7
-      rsbuild-plugin-dts: 0.10.6(@rsbuild/core@1.4.7)
+      rsbuild-plugin-dts: 0.10.6(@rsbuild/core@1.4.7)(typescript@5.8.3)
       tinyglobby: 0.2.14
+      typescript: 5.8.3
     dev: true
 
   /@rspack/binding-darwin-arm64@1.4.8:
@@ -705,7 +711,7 @@ packages:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
     dev: true
 
-  /rsbuild-plugin-dts@0.10.6(@rsbuild/core@1.4.7):
+  /rsbuild-plugin-dts@0.10.6(@rsbuild/core@1.4.7)(typescript@5.8.3):
     resolution: {integrity: sha512-rVP82fFMDHW0GirhYx+w2bER1HhkOKJ8e/bAAF2OkMUP2k2fviMpl/gsnbO8KI9vcSqsQE2QXHkj781m6W84Ow==}
     engines: {node: '>=16.7.0'}
     peerDependencies:
@@ -724,6 +730,7 @@ packages:
       picocolors: 1.1.1
       tinyglobby: 0.2.14
       tsconfig-paths: 4.2.0
+      typescript: 5.8.3
     dev: true
 
   /strip-bom@3.0.0:
@@ -761,6 +768,12 @@ packages:
       get-tsconfig: 4.10.1
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
+
+  /typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
     dev: true
 
   /undici-types@7.8.0:
