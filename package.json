@@ -1,0 +1,23 @@
+{
+  "name": "diff-effect",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:rust": "wasm-pack build --target nodejs",
+    "dev": "pnpm build:rust && node demo/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "diff": "^8.0.2",
+    "diff-effect-rust": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.14",
+    "tsx": "^4.20.3"
+  }
+}

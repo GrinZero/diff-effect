@@ -1,0 +1,122 @@
+import { RetentionFilterCareType } from '@moego/api-web/moego/models/business_customer/v1/business_customer_retention_defs';
+import { useSerialCallback } from '@moego/tools';
+import { Button, SegmentControl, LegacySelect as Select, Text, cn } from '@moego/ui';
+import { useDispatch, useSelector } from 'amos';
+import React, { memo } from 'react';
+import { Condition } from '../../../../../components/Condition';
+import {
+  type ClientRetentionType,
+  clientRetentionListFilterStore,
+  clientRetentionTypeLabelMap,
+  clientRetentionTypeStore,
+  entryOf,
+} from '../../../../../store/clientRetention/clientRetention.boxes';
+import { repeat } from '../../../../../utils/misc';
+import { SelectedFilters } from '../ClientListHeader/SelectedFilters';
+import { useClientViewContext } from '../hooks/useClientViewContext';
+import { useFilterActions } from '../hooks/useFilterActions';
+import { selectCompanyCareTypeNameMap } from '../../../../../store/careType/careType.selectors';
+
+export interface ClientRetentionListHeaderProps {
+  className?: string;
+  onClear?: () => void;
+}
+
+const year = new Date().getFullYear();
+
+const yearOptions = repeat(6, (i) => ({
+  label: 'Year: ' + (year - i),
+  title: year - i + '',
+  value: year - i,
+}));
+
+export const ClientRetentionListHeader = memo<ClientRetentionListHeaderProps>(({ className, onClear }) => {
+  const { filtersCount } = useClientViewContext();
+  const filterActions = useFilterActions();
+  const dispatch = useDispatch();
+  const [viewBy, filter, companyCareTypeNameMap] = useSelector(
+    clientRetentionTypeStore,
+    clientRetentionListFilterStore,
+    selectCompanyCareTypeNameMap,
+  );
+
+  const handleClear = useSerialCallback(async () => {
+    filterActions.clear();
+    onClear?.();
+  });
+
+  const clientCareTypeLabelMap: Record<RetentionFilterCareType, string> = {
+    [RetentionFilterCareType.UNSPECIFIED]: 'All',
+    [RetentionFilterCareType.DAYCARE]: companyCareTypeNameMap.Daycare,
+    [RetentionFilterCareType.BOARDING]: companyCareTypeNameMap.Boarding,
+    [RetentionFilterCareType.GROOMING]: companyCareTypeNameMap.Grooming,
+    [RetentionFilterCareType.EVALUATION]: companyCareTypeNameMap.Evaluation,
+    [RetentionFilterCareType.NON_SERVICE_SALES]: 'Non-service sales',
+  };
+
+  return (
+    <div className={cn('moe-bg-neutral-sunken-0 moe-rounded-m moe-p-s moe-pb-none', className)}>
+      <div className="moe-flex moe-justify-between">
+        <div className="moe-flex moe-gap-4">
+          <Select
+            classNames={{ control: 'moe-rounded-full' }}
+            value={filter.careType}
+            onChange={(v) =>
+              dispatch(clientRetentionListFilterStore.mergeState({ careType: v as RetentionFilterCareType }))
+            }
+            options={entryOf(clientCareTypeLabelMap).map(([value, label]: [RetentionFilterCareType, string]) => ({
+              value: Number(value),
+              label: 'Care type: ' + label,
+              title: label,
+            }))}
+          />
+          <Select
+            classNames={{ control: 'moe-rounded-full' }}
+            value={filter.year}
+            onChange={(v) => dispatch(clientRetentionListFilterStore.mergeState({ year: +v }))}
+            options={yearOptions}
+          />
+        </div>
+        <div>
+          <Text as="span" variant="small" className="moe-font-bold moe-mr-3">
+            View by
+          </Text>
+          <SegmentControl
+            className="moe-bg-white moe-border moe-border-button"
+            value={viewBy}
+            onChange={(value) => dispatch(clientRetentionTypeStore.setState(value as ClientRetentionType))}
+          >
+            {entryOf(clientRetentionTypeLabelMap).map(([value, label]) => (
+              <SegmentControl.Item
+                classNames={{
+                  indicator: viewBy === value ? 'moe-bg-neutral-dark' : void 0,
+                  content: viewBy === value ? 'moe-text-white' : void 0,
+                }}
+                value={value}
+                key={value}
+                label={label}
+              />
+            ))}
+          </SegmentControl>
+        </div>
+      </div>
+      <div className="moe-flex moe-justify-between moe-items-end moe-mt-s">
+        <div className="moe-flex moe-items-end moe-flex-wrap moe-w-full">
+          <SelectedFilters className="moe-mr-s" />
+          <div
+            className={cn(
+              'moe-flex moe-items-center moe-mb-s moe-flex-1',
+              filtersCount ? 'moe-justify-between' : 'moe-justify-end',
+            )}
+          >
+            <Condition if={!!filtersCount}>
+              <Button className="moe-shrink-0" size="s" onPress={handleClear} variant="tertiary">
+                Clear filters
+              </Button>
+            </Condition>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
