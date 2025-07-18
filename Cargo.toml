@@ -12,7 +12,7 @@ default = ["console_error_panic_hook"]
 
 [dependencies]
 wasm-bindgen = "0.2.84"
-swc_core = { version = "31.0.1", features = [
+swc_core = { version = "33.0.2", features = [
   "ecma_parser",
   "ecma_visit",
   "ecma_transforms",
